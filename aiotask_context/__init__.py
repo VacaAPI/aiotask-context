@@ -127,7 +127,8 @@ def set(key, value):
     current_task = asyncio_current_task()
     if not current_task:
         raise ValueError(NO_LOOP_EXCEPTION_MSG.format(key))
-
+    if not getattr(current_task, 'context', None):
+        current_task.context = {}
     current_task.context[key] = value
 
 
